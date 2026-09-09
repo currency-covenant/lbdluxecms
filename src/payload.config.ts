@@ -21,6 +21,7 @@ import { Webhooks } from "./collections/Webhooks";
 import { AuditLogs } from "./collections/AuditLogs";
 import { Header } from "./collections/Header";
 import { Footer } from "./collections/Footer";
+import { Site } from "./globals/Site";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { plugins } from "./plugins";
 import { ecommercePluginConfig } from "./plugins/ecommerce";
@@ -37,6 +38,7 @@ export default buildConfig({
     },
   },
   collections: [Pages, Posts, ShelfItems, ShelfCategories, Authors, LinksProfile, ProfileLinks, ContentNetwork, Media, Categories, Users, APIKeys, Webhooks, AuditLogs, Header, Footer],
+  globals: [Site],
   // db: mongooseAdapter({
   //   url: process.env.DATABASE_URL as string,
   // }),

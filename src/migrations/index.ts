@@ -8,6 +8,7 @@ import * as migration_20260620_profile_links from './20260620_profile_links';
 import * as migration_20260620_content_network from './20260620_content_network';
 import * as migration_20260908_remove_tenancy from './20260908_remove_tenancy';
 import * as migration_20260908_work_grid_link_display from './20260908_work_grid_link_display';
+import * as migration_20260909_add_site_global from './20260909_add_site_global';
 
 export const migrations = [
   {
@@ -24,5 +25,10 @@ export const migrations = [
     up: migration_20260908_work_grid_link_display.up,
     down: migration_20260908_work_grid_link_display.down,
     name: '20260908_work_grid_link_display'
+  },
+  {
+    up: migration_20260909_add_site_global.up,
+    down: migration_20260909_add_site_global.down,
+    name: '20260909_add_site_global'
   },
 ];

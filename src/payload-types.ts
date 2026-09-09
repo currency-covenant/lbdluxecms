@@ -163,8 +163,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    site: Site;
+  };
+  globalsSelect: {
+    site: SiteSelect<false> | SiteSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -3196,6 +3200,89 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * Site-wide settings and SEO defaults used by lbdluxe.com and links.lbdluxe.com.
+ *
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site".
+ */
+export interface Site {
+  id: number;
+  siteName: string;
+  /**
+   * Fallback <title> / og:title when a page has no meta.
+   */
+  defaultTitle?: string | null;
+  /**
+   * Fallback meta description when a page has no meta.
+   */
+  defaultDescription?: string | null;
+  /**
+   * e.g. https://lbdluxe.com
+   */
+  siteUrl?: string | null;
+  /**
+   * e.g. https://links.lbdluxe.com
+   */
+  linksUrl?: string | null;
+  /**
+   * Reserved for future use — default share-card image.
+   */
+  ogImage?: (number | null) | Media;
+  /**
+   * Reserved for future use — browser theme color (e.g. #0a0a0a).
+   */
+  themeColor?: string | null;
+  newsletter?: {
+    heading?: string | null;
+    subtitle?: string | null;
+    placeholder?: string | null;
+    buttonLabel?: string | null;
+  };
+  /**
+   * Data-driven social/profile links (used by the site navigation links).
+   */
+  socials?:
+    | {
+        title: string;
+        url: string;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "site_select".
+ */
+export interface SiteSelect<T extends boolean = true> {
+  siteName?: T;
+  defaultTitle?: T;
+  defaultDescription?: T;
+  siteUrl?: T;
+  linksUrl?: T;
+  ogImage?: T;
+  themeColor?: T;
+  newsletter?:
+    | T
+    | {
+        heading?: T;
+        subtitle?: T;
+        placeholder?: T;
+        buttonLabel?: T;
+      };
+  socials?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
