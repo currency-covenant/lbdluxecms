@@ -1,4 +1,6 @@
 const CMS = 'https://cms.lbdluxe.com'
+const ADMIN_EMAIL = process.env.ADMIN_EMAIL
+const ADMIN_PASSWORD = process.env.ADMIN_PASSWORD
 
 function lexicalParagraph(text: string) {
   return {
@@ -166,16 +168,20 @@ async function seedPages(token: string) {
 }
 
 async function main() {
+  if (!ADMIN_EMAIL || !ADMIN_PASSWORD) {
+    console.error('ADMIN_EMAIL and ADMIN_PASSWORD env vars are required')
+    process.exit(1)
+  }
   const login = await api('/users/login', {
     method: 'POST',
-    body: { email: 'admin@currencycovenant.com', password: 'Currencyis#1' },
+    body: { email: ADMIN_EMAIL, password: ADMIN_PASSWORD },
   })
   const token = (login.data as { token?: string })?.token
   if (!token) {
     console.error('LOGIN FAILED:', login.status, JSON.stringify(login.data).slice(0, 300))
     throw new Error('Could not authenticate to CMS — please provide admin credentials')
   }
-  console.log('authenticated as admin@currencycovenant.com')
+  console.log(`authenticated as ${ADMIN_EMAIL}`)
 
   await seedSiteGlobal(token)
   await seedPages(token)
