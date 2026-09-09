@@ -1,5 +1,36 @@
 const CMS = 'https://cms.lbdluxe.com'
 
+function lexicalParagraph(text: string) {
+  return {
+    root: {
+      type: 'root',
+      format: '',
+      indent: 0,
+      version: 1,
+      direction: 'ltr',
+      children: [
+        {
+          type: 'paragraph',
+          version: 1,
+          children: [{ type: 'text', text, format: 0, version: 1 }],
+        },
+      ],
+    },
+  }
+}
+
+function contentBlock(text: string) {
+  return {
+    blockType: 'content',
+    columns: [
+      {
+        size: 'full',
+        richText: lexicalParagraph(text),
+      },
+    ],
+  }
+}
+
 const siteGlobal = {
   siteName: 'LBDLUXE',
   defaultTitle: 'Lawrence Brown -- Full-Stack Developer',
@@ -37,7 +68,7 @@ const pages = [
       description:
         'Articles by Lawrence Brown — ideas, tutorials, and lessons learned building for the web.',
     },
-    layout: [],
+    layout: [contentBlock('A collection of articles where I share ideas, tutorials, and updates.')],
   },
   {
     slug: 'shelf',
@@ -52,7 +83,7 @@ const pages = [
       title: 'The Shelf',
       description: "Explore Lawrence Brown's shelf collection by category.",
     },
-    layout: [],
+    layout: [contentBlock('Explore my collection by category.')],
   },
   {
     slug: 'shelf-items',
@@ -67,7 +98,7 @@ const pages = [
       title: 'My Shelf',
       description: "Books, movies, TV shows, and albums Lawrence Brown has enjoyed.",
     },
-    layout: [],
+    layout: [contentBlock('Books, movies, TV shows, and albums I have enjoyed.')],
   },
 ]
 
@@ -92,11 +123,17 @@ async function api(path: string, opts: { method?: string; token?: string; body?:
 
 async function seedSiteGlobal(token: string) {
   const existing = await api('/globals/site', { token })
-  if (existing.status === 200 && (existing.data as { siteName?: string })?.siteName) {
+  const has = (d: unknown) =>
+    (d as { siteName?: string })?.siteName && Array.isArray((d as { socials?: unknown[] })?.socials) && (d as { socials: unknown[] }).socials.length > 0
+  if (existing.status === 200 && has(existing.data)) {
     console.log('site global already seeded — skipping')
     return
   }
-  const res = await api('/globals/site', { method: 'POST', token, body: siteGlobal })
+  const body =
+    existing.status === 200 && (existing.data as { siteName?: string })?.siteName
+      ? { ...(existing.data as object), socials: siteGlobal.socials }
+      : siteGlobal
+  const res = await api('/globals/site', { method: 'POST', token, body })
   if (res.status < 300) {
     console.log('seeded site global')
   } else {
@@ -131,14 +168,14 @@ async function seedPages(token: string) {
 async function main() {
   const login = await api('/users/login', {
     method: 'POST',
-    body: { email: 'admin@lbdluxe.digital', password: 'demo' },
+    body: { email: 'admin@currencycovenant.com', password: 'Currencyis#1' },
   })
   const token = (login.data as { token?: string })?.token
   if (!token) {
     console.error('LOGIN FAILED:', login.status, JSON.stringify(login.data).slice(0, 300))
     throw new Error('Could not authenticate to CMS — please provide admin credentials')
   }
-  console.log('authenticated as admin@lbdluxe.digital')
+  console.log('authenticated as admin@currencycovenant.com')
 
   await seedSiteGlobal(token)
   await seedPages(token)
