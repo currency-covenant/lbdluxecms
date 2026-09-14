@@ -80,6 +80,7 @@ export interface Config {
     'links-profile': LinksProfile;
     'profile-links': ProfileLink;
     'content-network': ContentNetwork;
+    'digital-products': DigitalProduct;
     media: Media;
     categories: Category;
     users: User;
@@ -132,6 +133,7 @@ export interface Config {
     'links-profile': LinksProfileSelect<false> | LinksProfileSelect<true>;
     'profile-links': ProfileLinksSelect<false> | ProfileLinksSelect<true>;
     'content-network': ContentNetworkSelect<false> | ContentNetworkSelect<true>;
+    'digital-products': DigitalProductsSelect<false> | DigitalProductsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -1460,6 +1462,64 @@ export interface ContentNetwork {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "digital-products".
+ */
+export interface DigitalProduct {
+  id: number;
+  title: string;
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  coverImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Display price. Charged via the Polar checkout link.
+   */
+  price: number;
+  currency: 'USD' | 'EUR' | 'GBP';
+  /**
+   * The Polar Checkout Link for this product (from your Polar dashboard).
+   */
+  polarCheckoutLink: string;
+  /**
+   * Optional badge shown on the card, e.g. "New" or "Best Seller".
+   */
+  badge?: string | null;
+  /**
+   * Featured products are sorted first on the catalog.
+   */
+  featured?: boolean | null;
+  order?: number | null;
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "api-keys".
  */
 export interface ApiKey {
@@ -1894,6 +1954,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'content-network';
         value: number | ContentNetwork;
+      } | null)
+    | ({
+        relationTo: 'digital-products';
+        value: number | DigitalProduct;
       } | null)
     | ({
         relationTo: 'media';
@@ -2438,6 +2502,34 @@ export interface ContentNetworkSelect<T extends boolean = true> {
   hexColor?: T;
   networkType?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "digital-products_select".
+ */
+export interface DigitalProductsSelect<T extends boolean = true> {
+  title?: T;
+  shortDescription?: T;
+  description?: T;
+  coverImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  price?: T;
+  currency?: T;
+  polarCheckoutLink?: T;
+  badge?: T;
+  featured?: T;
+  order?: T;
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3326,6 +3418,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'content-network';
           value: number | ContentNetwork;
+        } | null)
+      | ({
+          relationTo: 'digital-products';
+          value: number | DigitalProduct;
         } | null)
       | ({
           relationTo: 'products';
