@@ -10,6 +10,7 @@ import * as migration_20260908_remove_tenancy from './20260908_remove_tenancy';
 import * as migration_20260908_work_grid_link_display from './20260908_work_grid_link_display';
 import * as migration_20260909_add_site_global from './20260909_add_site_global';
 import * as migration_20260913_digital_products from './20260913_digital_products';
+import * as migration_20261013_fitness_products from './20261013_fitness_products';
 
 export const migrations = [
   {
@@ -36,5 +37,10 @@ export const migrations = [
     up: migration_20260913_digital_products.up,
     down: migration_20260913_digital_products.down,
     name: '20260913_digital_products'
+  },
+  {
+    up: migration_20261013_fitness_products.up,
+    down: migration_20261013_fitness_products.down,
+    name: '20261013_fitness_products'
   },
 ];
