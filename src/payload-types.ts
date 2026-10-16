@@ -79,8 +79,10 @@ export interface Config {
     authors: Author;
     'links-profile': LinksProfile;
     'profile-links': ProfileLink;
+    'business-cards': BusinessCard;
     'content-network': ContentNetwork;
     'digital-products': DigitalProduct;
+    'fitness-products': FitnessProduct;
     media: Media;
     categories: Category;
     users: User;
@@ -132,8 +134,10 @@ export interface Config {
     authors: AuthorsSelect<false> | AuthorsSelect<true>;
     'links-profile': LinksProfileSelect<false> | LinksProfileSelect<true>;
     'profile-links': ProfileLinksSelect<false> | ProfileLinksSelect<true>;
+    'business-cards': BusinessCardsSelect<false> | BusinessCardsSelect<true>;
     'content-network': ContentNetworkSelect<false> | ContentNetworkSelect<true>;
     'digital-products': DigitalProductsSelect<false> | DigitalProductsSelect<true>;
+    'fitness-products': FitnessProductsSelect<false> | FitnessProductsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -1447,6 +1451,41 @@ export interface ProfileLink {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-cards".
+ */
+export interface BusinessCard {
+  id: number;
+  name: string;
+  slug: string;
+  title?: string | null;
+  company?: string | null;
+  bio?: string | null;
+  profileImage?: (number | null) | Media;
+  coverImage?: (number | null) | Media;
+  phone?: string | null;
+  email?: string | null;
+  website?: string | null;
+  address?: string | null;
+  mapUrl?: string | null;
+  socialLinks?:
+    | {
+        title: string;
+        url: string;
+        platform?:
+          | ('linkedin' | 'twitter' | 'instagram' | 'facebook' | 'youtube' | 'tiktok' | 'github' | 'threads' | 'other')
+          | null;
+        iconType?: ('auto' | 'custom') | null;
+        icon?: (number | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  accentColor?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "content-network".
  */
 export interface ContentNetwork {
@@ -1508,6 +1547,102 @@ export interface DigitalProduct {
    */
   featured?: boolean | null;
   order?: number | null;
+  publishedAt?: string | null;
+  /**
+   * When enabled, the slug will auto-generate from the title field on save and autosave.
+   */
+  generateSlug?: boolean | null;
+  slug: string;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fitness-products".
+ */
+export interface FitnessProduct {
+  id: number;
+  title: string;
+  /**
+   * The primary category in the shop.
+   */
+  type: 'program' | 'supplement' | 'peptide';
+  shortDescription?: string | null;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  coverImage?: (number | null) | Media;
+  gallery?:
+    | {
+        image: number | Media;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Display price. Charged via the Polar checkout link.
+   */
+  price: number;
+  currency: 'USD' | 'EUR' | 'GBP';
+  /**
+   * Leave empty until the Polar product exists. The shop shows "Notify me" while this is blank and the Buy button activates once it is filled in.
+   */
+  polarCheckoutLink?: string | null;
+  /**
+   * Force the "Notify me" waitlist even if a checkout link exists.
+   */
+  comingSoon?: boolean | null;
+  /**
+   * Optional badge shown on the card, e.g. "New" or "Best Seller".
+   */
+  badge?: string | null;
+  /**
+   * Featured products are sorted first on the catalog.
+   */
+  featured?: boolean | null;
+  order?: number | null;
+  /**
+   * Requires the visitor to confirm they are of age before viewing.
+   */
+  ageRestricted?: boolean | null;
+  /**
+   * Comma-separated region codes, e.g. "US, CA". Display only for now.
+   */
+  availableRegions?: string | null;
+  /**
+   * Short note shown on the product page, e.g. "Ships in 2–4 business days".
+   */
+  shippingNote?: string | null;
+  /**
+   * Legal/research-use text shown on the product page. Required for supplements and peptides.
+   */
+  disclaimer?: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   publishedAt?: string | null;
   /**
    * When enabled, the slug will auto-generate from the title field on save and autosave.
@@ -1952,12 +2087,20 @@ export interface PayloadLockedDocument {
         value: number | ProfileLink;
       } | null)
     | ({
+        relationTo: 'business-cards';
+        value: number | BusinessCard;
+      } | null)
+    | ({
         relationTo: 'content-network';
         value: number | ContentNetwork;
       } | null)
     | ({
         relationTo: 'digital-products';
         value: number | DigitalProduct;
+      } | null)
+    | ({
+        relationTo: 'fitness-products';
+        value: number | FitnessProduct;
       } | null)
     | ({
         relationTo: 'media';
@@ -2494,6 +2637,38 @@ export interface ProfileLinksSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "business-cards_select".
+ */
+export interface BusinessCardsSelect<T extends boolean = true> {
+  name?: T;
+  slug?: T;
+  title?: T;
+  company?: T;
+  bio?: T;
+  profileImage?: T;
+  coverImage?: T;
+  phone?: T;
+  email?: T;
+  website?: T;
+  address?: T;
+  mapUrl?: T;
+  socialLinks?:
+    | T
+    | {
+        title?: T;
+        url?: T;
+        platform?: T;
+        iconType?: T;
+        icon?: T;
+        id?: T;
+      };
+  accentColor?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "content-network_select".
  */
 export interface ContentNetworkSelect<T extends boolean = true> {
@@ -2527,6 +2702,40 @@ export interface DigitalProductsSelect<T extends boolean = true> {
   badge?: T;
   featured?: T;
   order?: T;
+  publishedAt?: T;
+  generateSlug?: T;
+  slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "fitness-products_select".
+ */
+export interface FitnessProductsSelect<T extends boolean = true> {
+  title?: T;
+  type?: T;
+  shortDescription?: T;
+  description?: T;
+  coverImage?: T;
+  gallery?:
+    | T
+    | {
+        image?: T;
+        id?: T;
+      };
+  price?: T;
+  currency?: T;
+  polarCheckoutLink?: T;
+  comingSoon?: T;
+  badge?: T;
+  featured?: T;
+  order?: T;
+  ageRestricted?: T;
+  availableRegions?: T;
+  shippingNote?: T;
+  disclaimer?: T;
   publishedAt?: T;
   generateSlug?: T;
   slug?: T;
@@ -3319,6 +3528,10 @@ export interface Site {
    */
   linksUrl?: string | null;
   /**
+   * e.g. https://card.lbdluxe.com
+   */
+  cardUrl?: string | null;
+  /**
    * Reserved for future use — default share-card image.
    */
   ogImage?: (number | null) | Media;
@@ -3355,6 +3568,7 @@ export interface SiteSelect<T extends boolean = true> {
   defaultDescription?: T;
   siteUrl?: T;
   linksUrl?: T;
+  cardUrl?: T;
   ogImage?: T;
   themeColor?: T;
   newsletter?:
@@ -3416,12 +3630,20 @@ export interface TaskSchedulePublish {
           value: number | ProfileLink;
         } | null)
       | ({
+          relationTo: 'business-cards';
+          value: number | BusinessCard;
+        } | null)
+      | ({
           relationTo: 'content-network';
           value: number | ContentNetwork;
         } | null)
       | ({
           relationTo: 'digital-products';
           value: number | DigitalProduct;
+        } | null)
+      | ({
+          relationTo: 'fitness-products';
+          value: number | FitnessProduct;
         } | null)
       | ({
           relationTo: 'products';

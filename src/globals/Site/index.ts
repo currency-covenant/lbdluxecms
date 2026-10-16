@@ -53,6 +53,14 @@ export const Site: GlobalConfig = {
       },
     },
     {
+      name: 'cardUrl',
+      type: 'text',
+      label: 'Card Site URL',
+      admin: {
+        description: 'e.g. https://card.lbdluxe.com',
+      },
+    },
+    {
       name: 'ogImage',
       label: 'Default OG Image',
       type: 'upload',
