@@ -41,14 +41,46 @@ export const BusinessCards: CollectionConfig = {
       label: 'Job Title',
     },
     {
+      name: 'department',
+      type: 'text',
+      label: 'Department',
+    },
+    {
+      name: 'headline',
+      type: 'text',
+      label: 'Headline',
+    },
+    {
       name: 'company',
       type: 'text',
       label: 'Company / Organization',
     },
     {
+      name: 'companyLogo',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Company Logo',
+    },
+    {
       name: 'bio',
       type: 'textarea',
       label: 'Bio / Tagline',
+    },
+    {
+      name: 'accreditations',
+      type: 'array',
+      label: 'Accreditations',
+      labels: {
+        singular: 'Accreditation',
+        plural: 'Accreditations',
+      },
+      fields: [
+        {
+          name: 'name',
+          type: 'text',
+          required: true,
+        },
+      ],
     },
     {
       name: 'profileImage',
@@ -76,6 +108,16 @@ export const BusinessCards: CollectionConfig = {
       name: 'website',
       type: 'text',
       label: 'Website URL',
+    },
+    {
+      name: 'companyUrl',
+      type: 'text',
+      label: 'Company URL',
+    },
+    {
+      name: 'calendarUrl',
+      type: 'text',
+      label: 'Calendar / Booking URL',
     },
     {
       name: 'address',
@@ -119,6 +161,10 @@ export const BusinessCards: CollectionConfig = {
             { label: 'TikTok', value: 'tiktok' },
             { label: 'GitHub', value: 'github' },
             { label: 'Threads', value: 'threads' },
+            { label: 'Snapchat', value: 'snapchat' },
+            { label: 'Twitch', value: 'twitch' },
+            { label: 'Yelp', value: 'yelp' },
+            { label: 'Calendly', value: 'calendly' },
             { label: 'Other', value: 'other' },
           ],
           admin: {

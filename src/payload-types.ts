@@ -1458,13 +1458,24 @@ export interface BusinessCard {
   name: string;
   slug: string;
   title?: string | null;
+  department?: string | null;
+  headline?: string | null;
   company?: string | null;
+  companyLogo?: (number | null) | Media;
   bio?: string | null;
+  accreditations?:
+    | {
+        name: string;
+        id?: string | null;
+      }[]
+    | null;
   profileImage?: (number | null) | Media;
   coverImage?: (number | null) | Media;
   phone?: string | null;
   email?: string | null;
   website?: string | null;
+  companyUrl?: string | null;
+  calendarUrl?: string | null;
   address?: string | null;
   mapUrl?: string | null;
   socialLinks?:
@@ -1472,7 +1483,21 @@ export interface BusinessCard {
         title: string;
         url: string;
         platform?:
-          | ('linkedin' | 'twitter' | 'instagram' | 'facebook' | 'youtube' | 'tiktok' | 'github' | 'threads' | 'other')
+          | (
+              | 'linkedin'
+              | 'twitter'
+              | 'instagram'
+              | 'facebook'
+              | 'youtube'
+              | 'tiktok'
+              | 'github'
+              | 'threads'
+              | 'snapchat'
+              | 'twitch'
+              | 'yelp'
+              | 'calendly'
+              | 'other'
+            )
           | null;
         iconType?: ('auto' | 'custom') | null;
         icon?: (number | null) | Media;
@@ -2643,13 +2668,24 @@ export interface BusinessCardsSelect<T extends boolean = true> {
   name?: T;
   slug?: T;
   title?: T;
+  department?: T;
+  headline?: T;
   company?: T;
+  companyLogo?: T;
   bio?: T;
+  accreditations?:
+    | T
+    | {
+        name?: T;
+        id?: T;
+      };
   profileImage?: T;
   coverImage?: T;
   phone?: T;
   email?: T;
   website?: T;
+  companyUrl?: T;
+  calendarUrl?: T;
   address?: T;
   mapUrl?: T;
   socialLinks?:
