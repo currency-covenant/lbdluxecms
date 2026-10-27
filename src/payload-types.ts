@@ -1461,7 +1461,23 @@ export interface BusinessCard {
   department?: string | null;
   headline?: string | null;
   company?: string | null;
+  /**
+   * Deprecated in favor of the Logos array. Kept for back-compat; the card prefers the Logos array when populated.
+   */
   companyLogo?: (number | null) | Media;
+  /**
+   * Reusable logo tiles. Position controls where each renders: "banner" = across from the profile picture, "below" = strip under the name block.
+   */
+  logos?:
+    | {
+        image: number | Media;
+        alt?: string | null;
+        url?: string | null;
+        position?: ('banner' | 'below') | null;
+        order?: number | null;
+        id?: string | null;
+      }[]
+    | null;
   bio?: string | null;
   accreditations?:
     | {
@@ -1504,6 +1520,49 @@ export interface BusinessCard {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Extra Blinq-style rows you control (PayPal, portfolio, booking links, etc.). Each renders as an icon + value row.
+   */
+  contactRows?:
+    | {
+        type?:
+          | (
+              | 'email'
+              | 'phone'
+              | 'text'
+              | 'website'
+              | 'company'
+              | 'calendar'
+              | 'address'
+              | 'linkedin'
+              | 'twitter'
+              | 'instagram'
+              | 'facebook'
+              | 'youtube'
+              | 'tiktok'
+              | 'github'
+              | 'threads'
+              | 'snapchat'
+              | 'twitch'
+              | 'yelp'
+              | 'paypal'
+              | 'venmo'
+              | 'cashapp'
+              | 'custom'
+            )
+          | null;
+        label?: string | null;
+        value: string;
+        url?: string | null;
+        iconType?: ('auto' | 'custom') | null;
+        icon?: (number | null) | Media;
+        order?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Brand color used for the card icons and Save Contact button.
+   */
   accentColor?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -2672,6 +2731,16 @@ export interface BusinessCardsSelect<T extends boolean = true> {
   headline?: T;
   company?: T;
   companyLogo?: T;
+  logos?:
+    | T
+    | {
+        image?: T;
+        alt?: T;
+        url?: T;
+        position?: T;
+        order?: T;
+        id?: T;
+      };
   bio?: T;
   accreditations?:
     | T
@@ -2696,6 +2765,18 @@ export interface BusinessCardsSelect<T extends boolean = true> {
         platform?: T;
         iconType?: T;
         icon?: T;
+        id?: T;
+      };
+  contactRows?:
+    | T
+    | {
+        type?: T;
+        label?: T;
+        value?: T;
+        url?: T;
+        iconType?: T;
+        icon?: T;
+        order?: T;
         id?: T;
       };
   accentColor?: T;
