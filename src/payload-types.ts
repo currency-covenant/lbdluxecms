@@ -1521,7 +1521,7 @@ export interface BusinessCard {
       }[]
     | null;
   /**
-   * Extra Blinq-style rows you control (PayPal, portfolio, booking links, etc.). Each renders as an icon + value row.
+   * Extra Blinq-style rows you control (portfolio, booking links, custom). Use Payment Links for PayPal/Venmo/Cash App/Skype.
    */
   contactRows?:
     | {
@@ -1545,15 +1545,27 @@ export interface BusinessCard {
               | 'snapchat'
               | 'twitch'
               | 'yelp'
-              | 'paypal'
-              | 'venmo'
-              | 'cashapp'
               | 'custom'
             )
           | null;
         label?: string | null;
         value: string;
         url?: string | null;
+        iconType?: ('auto' | 'custom') | null;
+        icon?: (number | null) | Media;
+        order?: number | null;
+        id?: string | null;
+      }[]
+    | null;
+  /**
+   * Blinq-style payment fields (Cash App, PayPal, Venmo, Skype). Each renders as a brand-coloured icon row with a link. Type a $cashtag or handle and the URL is built automatically.
+   */
+  paymentLinks?:
+    | {
+        type: 'cashapp' | 'paypal' | 'venmo' | 'skype';
+        value: string;
+        url?: string | null;
+        label?: string | null;
         iconType?: ('auto' | 'custom') | null;
         icon?: (number | null) | Media;
         order?: number | null;
@@ -2774,6 +2786,18 @@ export interface BusinessCardsSelect<T extends boolean = true> {
         label?: T;
         value?: T;
         url?: T;
+        iconType?: T;
+        icon?: T;
+        order?: T;
+        id?: T;
+      };
+  paymentLinks?:
+    | T
+    | {
+        type?: T;
+        value?: T;
+        url?: T;
+        label?: T;
         iconType?: T;
         icon?: T;
         order?: T;

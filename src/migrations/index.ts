@@ -12,6 +12,7 @@ import * as migration_20260909_add_site_global from './20260909_add_site_global'
 import * as migration_20260913_digital_products from './20260913_digital_products';
 import * as migration_20261013_fitness_products from './20261013_fitness_products';
 import * as migration_20261027_business_card_logos_rows from './20261027_business_card_logos_rows';
+import * as migration_20261027_business_card_payment_links from './20261027_business_card_payment_links';
 import * as migration_20261021_business_card_fields from './20261021_business_card_fields';
 
 export const migrations = [
@@ -54,5 +55,10 @@ export const migrations = [
     up: migration_20261027_business_card_logos_rows.up,
     down: migration_20261027_business_card_logos_rows.down,
     name: '20261027_business_card_logos_rows'
+  },
+  {
+    up: migration_20261027_business_card_payment_links.up,
+    down: migration_20261027_business_card_payment_links.down,
+    name: '20261027_business_card_payment_links'
   },
 ];

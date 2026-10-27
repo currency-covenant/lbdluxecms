@@ -262,7 +262,7 @@ export const BusinessCards: CollectionConfig = {
         plural: 'Contact Rows',
       },
       admin: {
-        description: 'Extra Blinq-style rows you control (PayPal, portfolio, booking links, etc.). Each renders as an icon + value row.',
+        description: 'Extra Blinq-style rows you control (portfolio, booking links, custom). Use Payment Links for PayPal/Venmo/Cash App/Skype.',
         initCollapsed: true,
       },
       fields: [
@@ -289,9 +289,6 @@ export const BusinessCards: CollectionConfig = {
             { label: 'Snapchat', value: 'snapchat' },
             { label: 'Twitch', value: 'twitch' },
             { label: 'Yelp', value: 'yelp' },
-            { label: 'PayPal', value: 'paypal' },
-            { label: 'Venmo', value: 'venmo' },
-            { label: 'Cash App', value: 'cashapp' },
             { label: 'Custom', value: 'custom' },
           ],
           admin: {
@@ -320,6 +317,81 @@ export const BusinessCards: CollectionConfig = {
           defaultValue: 'auto',
           options: [
             { label: 'Auto (from type)', value: 'auto' },
+            { label: 'Custom upload', value: 'custom' },
+          ],
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'icon',
+          type: 'upload',
+          relationTo: 'media',
+          admin: {
+            condition: (_, siblingData) => siblingData?.iconType === 'custom',
+          },
+        },
+        {
+          name: 'order',
+          type: 'number',
+          defaultValue: 0,
+          label: 'Display Order',
+          admin: {
+            position: 'sidebar',
+          },
+        },
+      ],
+    },
+    {
+      name: 'paymentLinks',
+      type: 'array',
+      label: 'Payment Links',
+      labels: {
+        singular: 'Payment Link',
+        plural: 'Payment Links',
+      },
+      admin: {
+        description: 'Blinq-style payment fields (Cash App, PayPal, Venmo, Skype). Each renders as a brand-coloured icon row with a link. Type a $cashtag or handle and the URL is built automatically.',
+        initCollapsed: true,
+      },
+      fields: [
+        {
+          name: 'type',
+          type: 'select',
+          required: true,
+          defaultValue: 'cashapp',
+          options: [
+            { label: 'Cash App', value: 'cashapp' },
+            { label: 'PayPal', value: 'paypal' },
+            { label: 'Venmo', value: 'venmo' },
+            { label: 'Skype', value: 'skype' },
+          ],
+          admin: {
+            width: '50%',
+          },
+        },
+        {
+          name: 'value',
+          type: 'text',
+          required: true,
+          label: 'Value ($cashtag, handle, or full URL)',
+        },
+        {
+          name: 'url',
+          type: 'text',
+          label: 'Link URL (auto-derived if blank)',
+        },
+        {
+          name: 'label',
+          type: 'text',
+          label: 'Label (e.g. "Pay me via Cash App")',
+        },
+        {
+          name: 'iconType',
+          type: 'select',
+          defaultValue: 'auto',
+          options: [
+            { label: 'Auto (brand logo)', value: 'auto' },
             { label: 'Custom upload', value: 'custom' },
           ],
           admin: {
