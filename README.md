@@ -1,5 +1,22 @@
 # Payload Multi-Tenant Example
 
+## Image sizes
+
+Payload only generates a collection's `imageSizes` when [sharp](https://sharp.pixelplumbing.com/) is handed to it in the config. `src/payload.config.ts` does that, so every upload made from now on gets its resized variants (`thumbnail`, `square`, `small`, `medium`, `large`, `xlarge`, `og`) — the display variants are WebP, and `og` stays a PNG because social platforms do not all accept WebP.
+
+The media that was uploaded before that was configured has a `sizes` map of nulls, which means the site serves each image at its full uploaded resolution. One script repairs that:
+
+```bash
+npx tsx scripts/regenerate-media-sizes.ts            # regenerate every image's sizes
+npx tsx scripts/regenerate-media-sizes.ts --dry-run   # list what would change
+npx tsx scripts/regenerate-media-sizes.ts --id 28     # just one document
+npx tsx scripts/regenerate-media-sizes.ts --cleanup   # delete orphaned size variants
+```
+
+The script re-submits each original file through Payload's own upload pipeline, so the document keeps its ID and nothing that references it breaks.
+
+**This example demonstrates how to achieve a multi-tenancy in [Payload](https://payloadcms.com/docs/configuration/collections). Tenants are separated by a `Tenants` collection.**
+
 This example demonstrates how to achieve a multi-tenancy in [Payload](https://github.com/payloadcms/payload). Tenants are separated by a `Tenants` collection.
 
 ## Quick Start

@@ -11,6 +11,8 @@ const nextConfig = {
   // Keep heavy Payload packages external during dev to avoid re-bundling
   serverExternalPackages: [
     'graphql',
+    // sharp is a native module; bundling it breaks the image resizer.
+    'sharp',
   ],
 
   // Reduce logging noise to save I/O and memory

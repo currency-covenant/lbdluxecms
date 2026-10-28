@@ -3,6 +3,7 @@ import { resendAdapter } from "@payloadcms/email-resend";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import path from "path";
 import { buildConfig } from "payload";
+import sharp from "sharp";
 import { fileURLToPath } from "url";
 
 import { Pages } from "./collections/Pages";
@@ -53,6 +54,13 @@ export default buildConfig({
     push: process.env.DB_PUSH === "true",
   }),
   editor: lexicalEditor({}),
+  /**
+   * Payload can only generate the collection's imageSizes when sharp is
+   * handed to it. Without this the CMS silently writes a `sizes` map of nulls
+   * and every image is served at its full uploaded resolution — which is how
+   * a 21 MB cover photo ended up being downloaded for a 380px banner.
+   */
+  sharp,
   email: resendAdapter({
     defaultFromAddress: process.env.RESEND_FROM_ADDRESS || "noreply@lbdluxe.digital",
     defaultFromName: process.env.RESEND_FROM_NAME || "Lbdluxe",

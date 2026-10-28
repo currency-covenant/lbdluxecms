@@ -42,30 +42,39 @@ export const Media: CollectionConfig = {
     adminThumbnail: 'thumbnail',
     focalPoint: true,
     imageSizes: [
+      // Display variants are encoded as WebP: the same pixels in a fraction of
+      // the bytes. "og" stays a PNG because social platforms do not all
+      // accept WebP for link previews.
       {
         name: 'thumbnail',
         width: 300,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
       {
         name: 'square',
         width: 500,
         height: 500,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
       {
         name: 'small',
         width: 600,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
       {
         name: 'medium',
         width: 900,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
       {
         name: 'large',
         width: 1400,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
       {
         name: 'xlarge',
         width: 1920,
+        formatOptions: { format: 'webp', options: { quality: 82 } },
       },
       {
         name: 'og',
