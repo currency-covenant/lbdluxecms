@@ -15,6 +15,7 @@ import { ProfileLinks } from "./collections/ProfileLinks";
 import { BusinessCards } from "./collections/BusinessCards";
 import { ContentNetwork } from "./collections/ContentNetwork";
 import { DigitalProducts } from "./collections/DigitalProducts";
+import { ShopCards } from "./collections/ShopCards";
 import { FitnessProducts } from "./collections/FitnessProducts";
 import { Media } from "./collections/Media";
 import { Categories } from "./collections/Categories";
@@ -40,7 +41,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Pages, Posts, ShelfItems, ShelfCategories, Authors, LinksProfile, ProfileLinks, BusinessCards, ContentNetwork, DigitalProducts, FitnessProducts, Media, Categories, Users, APIKeys, Webhooks, AuditLogs, Header, Footer],
+  collections: [Pages, Posts, ShelfItems, ShelfCategories, Authors, LinksProfile, ProfileLinks, BusinessCards, ContentNetwork, DigitalProducts, FitnessProducts, ShopCards, Media, Categories, Users, APIKeys, Webhooks, AuditLogs, Header, Footer],
   globals: [Site],
   // db: mongooseAdapter({
   //   url: process.env.DATABASE_URL as string,

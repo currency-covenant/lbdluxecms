@@ -83,6 +83,7 @@ export interface Config {
     'content-network': ContentNetwork;
     'digital-products': DigitalProduct;
     'fitness-products': FitnessProduct;
+    'shop-cards': ShopCard;
     media: Media;
     categories: Category;
     users: User;
@@ -138,6 +139,7 @@ export interface Config {
     'content-network': ContentNetworkSelect<false> | ContentNetworkSelect<true>;
     'digital-products': DigitalProductsSelect<false> | DigitalProductsSelect<true>;
     'fitness-products': FitnessProductsSelect<false> | FitnessProductsSelect<true>;
+    'shop-cards': ShopCardsSelect<false> | ShopCardsSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
@@ -1751,6 +1753,40 @@ export interface FitnessProduct {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "shop-cards".
+ */
+export interface ShopCard {
+  id: number;
+  title: string;
+  /**
+   * Small chip shown in the top-left corner, e.g. "PERSONAL" or "CURRENCY COVENANT".
+   */
+  badge?: string | null;
+  description?: string | null;
+  /**
+   * Where the card links (e.g. https://shop.lbdluxe.com).
+   */
+  url: string;
+  /**
+   * Display text for the URL, e.g. "SHOP.LBDLUXE.COM".
+   */
+  urlLabel?: string | null;
+  /**
+   * The wireframe shape rendered in the card scene.
+   */
+  shape?: ('cube' | 'octahedron' | 'tetrahedron' | 'pyramid' | 'prism' | 'globe') | null;
+  /**
+   * Shifts this card's rainbow spectrum (0–359°) so adjacent cards look distinct.
+   */
+  hueOffset?: number | null;
+  order?: number | null;
+  publishedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "api-keys".
  */
 export interface ApiKey {
@@ -2197,6 +2233,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'fitness-products';
         value: number | FitnessProduct;
+      } | null)
+    | ({
+        relationTo: 'shop-cards';
+        value: number | ShopCard;
       } | null)
     | ({
         relationTo: 'media';
@@ -2880,6 +2920,24 @@ export interface FitnessProductsSelect<T extends boolean = true> {
   publishedAt?: T;
   generateSlug?: T;
   slug?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "shop-cards_select".
+ */
+export interface ShopCardsSelect<T extends boolean = true> {
+  title?: T;
+  badge?: T;
+  description?: T;
+  url?: T;
+  urlLabel?: T;
+  shape?: T;
+  hueOffset?: T;
+  order?: T;
+  publishedAt?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -3785,6 +3843,10 @@ export interface TaskSchedulePublish {
       | ({
           relationTo: 'fitness-products';
           value: number | FitnessProduct;
+        } | null)
+      | ({
+          relationTo: 'shop-cards';
+          value: number | ShopCard;
         } | null)
       | ({
           relationTo: 'products';
