@@ -14,6 +14,7 @@ import * as migration_20261013_fitness_products from './20261013_fitness_product
 import * as migration_20261027_business_card_logos_rows from './20261027_business_card_logos_rows';
 import * as migration_20261027_business_card_payment_links from './20261027_business_card_payment_links';
 import * as migration_20261027_shop_cards from './20261027_shop_cards';
+import * as migration_20261028_shop_cards_accent from './20261028_shop_cards_accent';
 import * as migration_20261021_business_card_fields from './20261021_business_card_fields';
 
 export const migrations = [
@@ -66,5 +67,10 @@ export const migrations = [
     up: migration_20261027_shop_cards.up,
     down: migration_20261027_shop_cards.down,
     name: '20261027_shop_cards'
+  },
+  {
+    up: migration_20261028_shop_cards_accent.up,
+    down: migration_20261028_shop_cards_accent.down,
+    name: '20261028_shop_cards_accent'
   },
 ];

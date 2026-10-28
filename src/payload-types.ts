@@ -1764,6 +1764,10 @@ export interface ShopCard {
   badge?: string | null;
   description?: string | null;
   /**
+   * Optional square image shown above the title (e.g. the Covenant Seal). Falls back to the arrow icon when omitted.
+   */
+  image?: (number | null) | Media;
+  /**
    * Where the card links (e.g. https://shop.lbdluxe.com).
    */
   url: string;
@@ -1772,13 +1776,9 @@ export interface ShopCard {
    */
   urlLabel?: string | null;
   /**
-   * The wireframe shape rendered in the card scene.
+   * Solid accent used for the badge, icon and URL label (e.g. #22d3ee cyan, #f43f5e rose).
    */
-  shape?: ('cube' | 'octahedron' | 'tetrahedron' | 'pyramid' | 'prism' | 'globe') | null;
-  /**
-   * Shifts this card's rainbow spectrum (0–359°) so adjacent cards look distinct.
-   */
-  hueOffset?: number | null;
+  accentColor?: string | null;
   order?: number | null;
   publishedAt?: string | null;
   updatedAt: string;
@@ -2932,10 +2932,10 @@ export interface ShopCardsSelect<T extends boolean = true> {
   title?: T;
   badge?: T;
   description?: T;
+  image?: T;
   url?: T;
   urlLabel?: T;
-  shape?: T;
-  hueOffset?: T;
+  accentColor?: T;
   order?: T;
   publishedAt?: T;
   updatedAt?: T;

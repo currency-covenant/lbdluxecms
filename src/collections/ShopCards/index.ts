@@ -14,7 +14,7 @@ export const ShopCards: CollectionConfig = {
     delete: requireRoles(['user']),
   },
   admin: {
-    defaultColumns: ['title', 'badge', 'shape', 'order', 'updatedAt'],
+    defaultColumns: ['title', 'badge', 'accentColor', 'order', 'updatedAt'],
     useAsTitle: 'title',
     group: 'Content',
   },
@@ -39,6 +39,16 @@ export const ShopCards: CollectionConfig = {
       label: 'Description',
     },
     {
+      name: 'image',
+      type: 'upload',
+      relationTo: 'media',
+      label: 'Logo / Icon Image',
+      admin: {
+        position: 'sidebar',
+        description: 'Optional square image shown above the title (e.g. the Covenant Seal). Falls back to the arrow icon when omitted.',
+      },
+    },
+    {
       name: 'url',
       type: 'text',
       required: true,
@@ -56,33 +66,13 @@ export const ShopCards: CollectionConfig = {
       },
     },
     {
-      name: 'shape',
-      type: 'select',
-      defaultValue: 'cube',
-      options: [
-        { label: 'Cube', value: 'cube' },
-        { label: 'Octahedron', value: 'octahedron' },
-        { label: 'Tetrahedron', value: 'tetrahedron' },
-        { label: 'Square Pyramid', value: 'pyramid' },
-        { label: 'Hexagonal Prism', value: 'prism' },
-        { label: 'Globe', value: 'globe' },
-      ],
-      label: '3D Shape',
+      name: 'accentColor',
+      type: 'text',
+      defaultValue: '#22d3ee',
+      label: 'Accent Color (hex)',
       admin: {
+        description: 'Solid accent used for the badge, icon and URL label (e.g. #22d3ee cyan, #f43f5e rose).',
         position: 'sidebar',
-        description: 'The wireframe shape rendered in the card scene.',
-      },
-    },
-    {
-      name: 'hueOffset',
-      type: 'number',
-      defaultValue: 0,
-      min: 0,
-      max: 359,
-      label: 'Rainbow Hue Offset',
-      admin: {
-        position: 'sidebar',
-        description: 'Shifts this card\'s rainbow spectrum (0–359°) so adjacent cards look distinct.',
       },
     },
     {
