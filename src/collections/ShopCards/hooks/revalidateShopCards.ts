@@ -8,7 +8,11 @@ export const revalidateShopCards: CollectionAfterChangeHook = ({
 }) => {
   if (doc._status === 'published') {
     payload.logger.info('Revalidating shop-cards')
-    revalidateTag('shop-cards')
+    try {
+      revalidateTag('shop-cards')
+    } catch {
+      // Called outside a Next.js request context (e.g. a seed script) — safe to ignore.
+    }
   }
 }
 
